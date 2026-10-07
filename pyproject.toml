@@ -1,0 +1,17 @@
+[project]
+name = "pybackups"
+version = "0.1.0"
+description = "A service that automatically backs up on directory to another at the specified interval."
+authors = [
+    {name = "jtgraham38",email = "jtgraham38@gmail.com"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

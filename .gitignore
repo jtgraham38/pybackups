@@ -1,0 +1,8 @@
+/target/*
+/destination/*
+/from/*
+/to/*
+/_from/*
+/_to/*
+.env
+*.pyc
