@@ -13,7 +13,14 @@ This script will install the repo and configure it to run as a systemd service o
 
 ### Pro tip
 
-If you have python installed, but cannot run it with sudo due to path issues, try `curl -sL https://raw.githubusercontent.com/jtgraham38/pybackups/main/scripts/install.sh | sudo env PATH="$PATH" bash` instead.
+If you have python/pip/etc. installed, but cannot run it with sudo due to path issues, try 
+
+```bash
+curl -sL https://raw.githubusercontent.com/jtgraham38/pybackups/main/scripts/install.sh | sudo env PATH="$PATH" bash 
+```
+
+
+instead.
 
 ##Updating
 To update the service to the latest version, simply run 
@@ -26,7 +33,13 @@ This will pull the latest version of the service, and restart the service on you
 
 ### Pro tip
 
-If you have python installed, but cannot run it with sudo due to path issues, try `curl -sL https://raw.githubusercontent.com/jtgraham38/pybackups/main/scripts/uninstall.sh | sudo env PATH="$PATH" bash` instead.
+If you have python/pip/etc. installed, but cannot run it with sudo due to path issues, try 
+
+```bash
+curl -sL https://raw.githubusercontent.com/jtgraham38/pybackups/main/scripts/update.sh | sudo env PATH="$PATH" bash 
+```
+
+instead.
 
 ##Uninstallation
 To completely uninstall all trace of the service, run
@@ -39,7 +52,13 @@ This will remove the service, repo, state, and config files from your host.  `py
 
 ### Pro tip
 
-If you have python installed, but cannot run it with sudo due to path issues, try `curl -sL https://raw.githubusercontent.com/jtgraham38/pybackups/main/scripts/update.sh | sudo env PATH="$PATH" bash` instead.
+If you have python/pip/etc. installed, but cannot run it with sudo due to path issues, try 
+
+```bash
+curl -sL https://raw.githubusercontent.com/jtgraham38/pybackups/main/scripts/uninstall.sh | sudo env PATH="$PATH" bash  
+```
+
+instead.
 
 ##Configuration
 By default, `pybackups` simply runs in the background, doing nothing.  To start making zip backups, you need to edit the config file.  This file is located at `/etc/pybackups/config.json`.  By default, it will contain a single `jobs` key set to an empty array.  To add copy jobs, simply add an entry to this array:
