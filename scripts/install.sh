@@ -19,7 +19,7 @@ else
 fi   
 
 #python
-python --version
+python3 --version
 if [ $? -eq 0 ]; then
     echo "Python is installed"; 
 else 
