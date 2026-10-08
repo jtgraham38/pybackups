@@ -106,4 +106,4 @@ Let's look at the above config.  Firstly, to define a job, you need to give it a
 ## Conclusion
 `pybackups` is meant to help you make... backups of your data using... python.  Hence the name.  Once again, it is designed to make it easy to have copies of folders on a separate disk, just in case one disk fails.  Therefore, ideally, you would be copying from one mounted disk to another, like `target=/mnt/sda1/folder`, and `destination=/mnt/sdb1/backups`.  This is an open-source tool that I use for personal projects, so what you see is what you get.  There may be bugs, so if you are worried about it, audit the code, or use a more robust, battle-tested tool.  I also built this as an exercise to make sure I can still code in the age of ai :D.  Good luck and enjoy!
 
-    [Jacob Graham](https://jacob-t-graham.com)
+[Jacob Graham](https://jacob-t-graham.com)
