@@ -61,7 +61,7 @@ curl -sL https://raw.githubusercontent.com/jtgraham38/pybackups/main/scripts/uni
 instead.
 
 ## Configuration
-By default, `pybackups` simply runs in the background, doing nothing.  To start making zip backups, you need to edit the config file.  This file is located at `/etc/pybackups/config.json`.  By default, it will contain a single `jobs` key set to an empty array.  To add copy jobs, simply add an entry to this array:
+By default, `pybackups` simply runs in the background, doing nothing.  To start making zip backups, you need to edit the config file.  This file is located at `/etc/pybackups/config.json`.  By default, it will contain a single `jobs` key set to an empty array.  You can add as many entries to this array as you desire.  To add copy jobs, simply add an entry to this array:
 
 ```json
 {
@@ -95,7 +95,7 @@ Let's look at the above config.  Firstly, to define a job, you need to give it a
 `destination` is the path to the directory where you want to store the `.zip` copies of the `target` directory.  Ideally, this should be on a different physical disk than `target`.
 
 ### `interval`
-`interval` specifies the number of seconds that should pass between each backup of the `target` to a `.zip` archive in the `destination`.
+`interval` specifies the number of seconds that should pass between each backup of the `target` to a `.zip` archive in the `destination`.  Note that the backup loop only runs every 60s, so intervals smaller than that will run just once every 60s.
 
 ### `max`
 `max` is the number of rolling copies of `target` that should be kept as `.zip` archives in the `destination`.  When this number is exceeded, the oldest archive will be deleted.  This can combine with `interval` to do neat things like keeping a rolling backup of the last three weeks of the state of a given folder.
