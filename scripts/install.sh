@@ -27,14 +27,14 @@ else
     exit;
 fi    
 
-#pip
-pip --version
-if [ $? -eq 0 ]; then
-    echo "Pip is installed"; 
-else 
-    echo "Pip is not installed"; 
-    exit;
-fi    
+#pip (currently not needed!)
+# pip --version
+# if [ $? -eq 0 ]; then
+#     echo "Pip is installed"; 
+# else 
+#     echo "Pip is not installed"; 
+#     exit;
+# fi    
 
 #clone repo to /opt/pybackups
 git clone https://github.com/jtgraham38/pybackups.git /opt/pybackups
