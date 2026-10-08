@@ -90,7 +90,7 @@ def validate_config(config):
     except (TypeError, OverflowError):
         raise ValidateConfigException("Config must be json-encodable!")
 
-    if not config["jobs"]:
+    if "jobs" not in config:
         raise ValidateConfigException("You have not configured any copy jobs!")
 
     # validate each copy job in the config
