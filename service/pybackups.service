@@ -1,0 +1,12 @@
+Description=pybackups
+After=time-sync.target
+
+[Service]
+ExecStart=/usr/bin/python3 /opt/pybackups/src/main.py
+Restart=always
+Environment=STATE_DIRECTORY=/var/lib/pybackups
+Environment=CONFIGURATION_DIRECTORY=/etc/pybackups
+
+[Install]
+WantedBy=multi-user.target
+EOF
