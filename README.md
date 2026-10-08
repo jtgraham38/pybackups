@@ -11,6 +11,14 @@ curl -sL https://raw.githubusercontent.com/jtgraham38/pybackups/main/scripts/ins
 
 This script will install the repo and configure it to run as a systemd service on your host.  It will install the repo to the `/opt/pybackups` directory, and will intitialize the `/etc/pybackups` directory to hold config, and the `/var/lib/pybackups` directory to hold state.
 
+Test installation by running 
+
+```bash
+sudo systemctl status pybackups
+```
+
+If it worked, the service status should be `active (running)`.
+
 ### Pro tip
 
 If you have python/pip/etc. installed, but cannot run it with sudo due to path issues, try 
