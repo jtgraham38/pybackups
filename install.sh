@@ -43,6 +43,20 @@ if [ $? -ne 0 ]; then
     exit;
 fi
 
+#make config folder
+mkdir /etc/pybackups
+if [ $? -ne 0 ]; then
+    echo "failed to make config dir '/etc/pybackups', exiting"; 
+    exit;
+fi
+
+#make state folder
+mkdir /var/lib/pybackups
+if [ $? -ne 0 ]; then
+    echo "failed to make config dir '/var/lib/pybackups', exiting"; 
+    exit;
+fi
+
 #make service based on /opt/pybackups/service/pybackups.service
 cp /opt/pybackups/service/pybackups.service  /etc/systemd/system/pybackups.service
 if [ $? -ne 0 ]; then
