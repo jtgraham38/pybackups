@@ -10,4 +10,3 @@ Environment=CONFIGURATION_DIRECTORY=/etc/pybackups
 
 [Install]
 WantedBy=multi-user.target
-EOF
