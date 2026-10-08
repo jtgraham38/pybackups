@@ -63,14 +63,20 @@ def zip_job(target, destination, options={}):
                 continue
 
             # write an target_entry_path to the zip archive
-            if target_entry_path.is_file():
-                print(f"Adding file: {target_entry_path}")
-                zf.write(
-                    target_entry_path, target_entry_path.relative_to(target_path.parent)
-                )
-            else:
+            try:
+                if target_entry_path.is_file():
+                    print(f"Adding file: {target_entry_path}")
+                    zf.write(
+                        target_entry_path,
+                        target_entry_path.relative_to(target_path.parent),
+                    )
+                else:
+                    print(
+                        f"Target path: {target_entry_path} is not a regular file, skipping"
+                    )
+            except Exception as e:
                 print(
-                    f"Target path: {target_entry_path} is not a regular file, skipping"
+                    f"Error: {e} writing file {target_entry_path} to archive {destination_file_path}, skipping"
                 )
 
         print(f"Finished writing archive {destination_file_path}")
