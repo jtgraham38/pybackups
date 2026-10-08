@@ -1,6 +1,6 @@
 from config import get_config, init_config, validate_config
 from state import get_state, init_state, validate_state, save_state
-from fs import zip_job, del_job
+from fs import zip_job, del_job, DelJobException
 from datetime import datetime as dt
 from datetime import timedelta
 from collections import deque
@@ -72,7 +72,11 @@ def py_backups():
                 backup_to_remove = backups_q.popleft()
 
                 # delete the archive found at backup_to_remove['archive_file']
-                del_job(backup_to_remove["archive_file"])
+                try:
+                    del_job(backup_to_remove["archive_file"])
+                except DelJobException as e:
+                    if not "Target path for job does not exist" in str(e):
+                        raise DelJobException(str(e))
 
         # re-save the dequeue to the state
         state["jobs"][job_id]["backups"] = list(backups_q)
