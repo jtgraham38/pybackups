@@ -45,8 +45,13 @@ def zip_job(target, destination, options={}):
     # prep cpignore key
     cpignore = [Path(ignore_path) for ignore_path in options.get("cpignore")]
 
+    # get the zip type option
+    zip_type = zipfile.ZIP_DEFLATED
+    if options.get("zip_type") == "ZIP_STORED":
+        zip_type = zipfile.ZIP_STORED
+
     # zip the target into the destination
-    with zipfile.ZipFile(destination_file_path, "w", zipfile.ZIP_DEFLATED) as zf:
+    with zipfile.ZipFile(destination_file_path, "w", zip_type) as zf:
         for target_entry_path in sorted(target_path.rglob("*")):
             # skip excluded files and folders
             target_entry_path = Path(target_entry_path)

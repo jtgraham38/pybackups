@@ -84,7 +84,8 @@ By default, `pybackups` simply runs in the background, doing nothing.  To start 
                 "cpignore": [
                 "ignore",
                 "ignore.txt"
-                ]
+                ],
+                "zip_type": "ZIP_DEFLATED"
             }
         }
     ]
@@ -109,7 +110,7 @@ Let's look at the above config.  Firstly, to define a job, you need to give it a
 `max` is the number of rolling copies of `target` that should be kept as `.zip` archives in the `destination`.  When this number is exceeded, the oldest archive will be deleted.  This can combine with `interval` to do neat things like keeping a rolling backup of the last three weeks of the state of a given folder.
 
 ### `options`
-`options` is where custom arguments to the job are passed.  Right now, just one entry is required (though  more may be added in the future).  `cpignore` allows the user to specify files and directories to exclude from the backup archive.  It works similarly to a `.gitignore` file, and serves a similar purpose: say you want to backup a folder, but exclude one (or more) large but unneeded subfolder.  This is how you do that.
+`options` is where custom arguments to the job are passed.  Right now, just two entrie is required (though more may be added in the future).  `cpignore` allows the user to specify files and directories to exclude from the backup archive.  It works similarly to a `.gitignore` file, and serves a similar purpose: say you want to backup a folder, but exclude one (or more) large but unneeded subfolder.  This is how you do that.  `zip_type` specifies the type of python zip file the `zipfile` module uses.  In general, you should use a value of `"ZIP_DEFLATED"` here for files that will compress heavily.  However, if you have large files like videos and etc. that will not heavily compress, changing this to `"ZIP_STORED"` may boost performance.
 
 ## Conclusion
 `pybackups` is meant to help you make... backups of your data using... python.  Hence the name.  Once again, it is designed to make it easy to have copies of folders on a separate disk, just in case one disk fails.  Therefore, ideally, you would be copying from one mounted disk to another, like `target=/mnt/sda1/folder`, and `destination=/mnt/sdb1/backups`.  This is an open-source tool that I use for personal projects, so what you see is what you get.  There may be bugs, so if you are worried about it, audit the code, or use a more robust, battle-tested tool.  I also built this as an exercise to make sure I can still code in the age of ai :D.  Good luck and enjoy!

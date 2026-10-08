@@ -14,7 +14,8 @@ The config will be filled with jobs of this format:
         "cpignore": [
           "ignore",
           "ignoree.txt"
-        ]
+        ],
+        "zip_type": "ZIP_DEFLATED"
       }
     }
   ]
