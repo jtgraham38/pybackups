@@ -57,37 +57,75 @@ def zip_job(target, destination, options={}):
 
     # zip the target into the destination
     with zipfile.ZipFile(destination_file_path, "w", zip_type) as zf:
-        for target_entry_path in sorted(target_path.rglob("*")):
-            # skip excluded files and folders
-            target_entry_path = Path(target_entry_path)
-            relative_entry_path = target_entry_path.relative_to(target_path)
+        for root_path, dirs, files in target_path.walk():
 
-            # skip files and folders in the cpignore
-            should_continue = False
-            for ignore_path in cpignore:
-                if relative_entry_path.is_relative_to(ignore_path):
-                    should_continue = True
-                    break
-            if should_continue:
-                print(f"Ignoring folder/directory: {relative_entry_path}")
+            #skip dirs in the cpignore
+            if root_path in cpignore:
+                print(f"Ignoring directory: {root_path}")
                 continue
 
-            # write an target_entry_path to the zip archive
-            try:
-                if target_entry_path.is_file():
-                    print(f"Adding file: {target_entry_path}")
-                    zf.write(
-                        target_entry_path,
-                        target_entry_path.relative_to(target_path.parent),
-                    )
-                else:
+            #loop thru each file in the root
+            for relative_entry_path in files:
+                relative_entry_path = Path(relative_entry_path)
+                target_entry_path = root_path / relative_entry_path
+                print(f"relative entry path: {relative_entry_path}")
+
+                #skip cpignored files
+                print(f"cpignore: {cpignore}")
+                if relative_entry_path in cpignore:
+                    print(f"Ignoring file: {relative_entry_path}")
+                    continue
+
+                # write an target_entry_path to the zip archive
+                try:
+                    if target_entry_path.is_file():
+                        print(f"Adding file: {target_entry_path}")
+                        zf.write(
+                            target_entry_path,
+                            target_entry_path.relative_to(target_path.parent),
+                        )
+                    else:
+                        print(
+                            f"Target path: {target_entry_path} is not a regular file, skipping"
+                        )
+                except Exception as e:
                     print(
-                        f"Target path: {target_entry_path} is not a regular file, skipping"
+                        f"Error: {e} writing file {target_entry_path} to archive {destination_file_path}, skipping"
                     )
-            except Exception as e:
-                print(
-                    f"Error: {e} writing file {target_entry_path} to archive {destination_file_path}, skipping"
-                )
+
+
+
+        # for target_entry_path in sorted(target_path.rglob("*")):
+        #     # skip excluded files and folders
+        #     target_entry_path = Path(target_entry_path)
+        #     relative_entry_path = target_entry_path.relative_to(target_path)
+
+        #     # skip files and folders in the cpignore
+        #     should_continue = False
+        #     for ignore_path in cpignore:
+        #         if relative_entry_path.is_relative_to(ignore_path):
+        #             should_continue = True
+        #             break
+        #     if should_continue:
+        #         print(f"Ignoring folder/directory: {relative_entry_path}")
+        #         continue
+
+        #     # write an target_entry_path to the zip archive
+        #     try:
+        #         if target_entry_path.is_file():
+        #             print(f"Adding file: {target_entry_path}")
+        #             zf.write(
+        #                 target_entry_path,
+        #                 target_entry_path.relative_to(target_path.parent),
+        #             )
+        #         else:
+        #             print(
+        #                 f"Target path: {target_entry_path} is not a regular file, skipping"
+        #             )
+        #     except Exception as e:
+        #         print(
+        #             f"Error: {e} writing file {target_entry_path} to archive {destination_file_path}, skipping"
+        #         )
 
         print(f"Finished writing archive {destination_file_path}")
         return destination_file_path
