@@ -85,9 +85,9 @@ By default, `pybackups` simply runs in the background, doing nothing.  To start 
                 "ignore",
                 "ignore.txt"
                 ],
-                "compression": 8,
+                "compression": 93,
                 "allowZip64": true,
-                "compresslevel": 1,
+                "compresslevel": 3,
                 "strict_timestamps": true
             }
         }
