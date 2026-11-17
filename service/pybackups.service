@@ -11,6 +11,11 @@ StandardError=journal
 Environment=PYTHONUNBUFFERED=1
 Environment=STATE_DIRECTORY=/var/lib/pybackups
 Environment=CONFIGURATION_DIRECTORY=/etc/pybackups
+Nice=19
+IOSchedulingClass=idle
+IOWeight=10
+IOReadBandwidthMax=/dev/sda 20M
+MemoryHigh=512M
 
 [Install]
 WantedBy=multi-user.target
