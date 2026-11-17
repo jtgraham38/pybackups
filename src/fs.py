@@ -45,33 +45,36 @@ def zip_job(target, destination, options={}):
     # prep cpignore key
     cpignore = [Path(ignore_path) for ignore_path in options.get("cpignore")]
 
-    # get the zip type option
-    zip_type = zipfile.ZIP_DEFLATED
-    if options.get("zip_type") == "ZIP_STORED":
-        zip_type = zipfile.ZIP_STORED
+    #prep the zip options
+    compression = options.get("compression", zipfile.ZIP_DEFLATED)
+    allowZip64 = options.get("allowZip64", True)
+    compresslevel = options.get("compresslevel", None)
+    strict_timestamps = options.get("strict_timestamps", True)
+    metadata_encoding = options.get("metadata_encoding", None)
 
     # log options
     print(
-        f"Writing archive {backup_name} to {destination_file_path} with cpignore=len({len(cpignore)}) and zip_type='{zip_type}'"
+        f"Writing archive {backup_name} to {destination_file_path} with cpignore=len({len(cpignore)}) and compression={compression}, allowZip64={allowZip64}, compresslevel={compresslevel}, strict_timestamps={strict_timestamps}, metadata_encoding={metadata_encoding}"
     )
 
     # zip the target into the destination
-    with zipfile.ZipFile(destination_file_path, "w", zip_type) as zf:
+    with zipfile.ZipFile(destination_file_path, "w", compression=compression, allowZip64=allowZip64, compresslevel=compresslevel, strict_timestamps=strict_timestamps, metadata_encoding=metadata_encoding) as zf:
         for root_path, dirs, files in target_path.walk():
 
-            #skip dirs in the cpignore
-            if root_path in cpignore:
-                print(f"Ignoring directory: {root_path}")
-                continue
+            #skip dirs in the cpignore ([:] edits by reference, rather than by value)
+            dirs[:] = [dir for dir in dirs if dir not in [str(path) for path in cpignore]]
+
+            #older, less efficient way to skip dirs in the cpignore
+            # if relative_root_path in cpignore:
+            #     print(f"Ignoring directory: {root_path}")
+            #     continue
 
             #loop thru each file in the root
             for relative_entry_path in files:
                 relative_entry_path = Path(relative_entry_path)
                 target_entry_path = root_path / relative_entry_path
-                print(f"relative entry path: {relative_entry_path}")
 
                 #skip cpignored files
-                print(f"cpignore: {cpignore}")
                 if relative_entry_path in cpignore:
                     print(f"Ignoring file: {relative_entry_path}")
                     continue

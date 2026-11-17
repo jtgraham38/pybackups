@@ -89,4 +89,4 @@ if __name__ == "__main__":
     while True:
         # run the main app script every 60 seconds
         py_backups()
-        time.sleep(10)
+        time.sleep(60)

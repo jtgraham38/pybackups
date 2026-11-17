@@ -85,7 +85,10 @@ By default, `pybackups` simply runs in the background, doing nothing.  To start 
                 "ignore",
                 "ignore.txt"
                 ],
-                "zip_type": "ZIP_DEFLATED"
+                "compression": 8,
+                "allowZip64": true,
+                "compresslevel": 1,
+                "strict_timestamps": true
             }
         }
     ]
@@ -110,7 +113,19 @@ Let's look at the above config.  Firstly, to define a job, you need to give it a
 `max` is the number of rolling copies of `target` that should be kept as `.zip` archives in the `destination`.  When this number is exceeded, the oldest archive will be deleted.  This can combine with `interval` to do neat things like keeping a rolling backup of the last three weeks of the state of a given folder.
 
 ### `options`
-`options` is where custom arguments to the job are passed.  Right now, just two entrie is required (though more may be added in the future).  `cpignore` allows the user to specify files and directories to exclude from the backup archive.  It works similarly to a `.gitignore` file, and serves a similar purpose: say you want to backup a folder, but exclude one (or more) large but unneeded subfolder.  This is how you do that.  `zip_type` specifies the type of python zip file the `zipfile` module uses.  In general, you should use a value of `"ZIP_DEFLATED"` here for files that will compress heavily.  However, if you have large files like videos and etc. that will not heavily compress, changing this to `"ZIP_STORED"` may boost performance.
+`options` is where custom arguments to the job are passed.  Right now, just two entrie is required (though more may be added in the future).  `cpignore` allows the user to specify files and directories to exclude from the backup archive.  It works similarly to a `.gitignore` file, and serves a similar purpose: say you want to backup a folder, but exclude one (or more) large but unneeded subfolder.  This is how you do that.  `compression`, `allowZip64`, `compresslevel`, `strict_timestamps`, and `metadata_encoding` are fields for controlling settings of the zip archive, which you can read about in the official [zipfile.ZipFile documentation](https://docs.python.org/3.11/library/zipfile.html).  I will briefly list the possible values for them below:
+
+- `compression`: `0` (`ZIP_STORED`), `8` (`ZIP_DEFLATED`), `12` (`ZIP_BZIP2`), `14` (`ZIP_LZMA`), and `93` (`ZIP_ZSTANDARD`).  Default `0` (`ZIP_STORED`).
+- `allowZip64`: `true` or `false`.  Default `True`.
+- `compressionlevel`: when `compression=8`, an integer from `0` to `9`.  When `compression=12`, an integer from `1` to `9`.  For `compression=93`, an integer from `-131072` to `22`.  Otherwise, it has no effect. Default `None`.
+- `strict_timestamps`: `true` or `false`. Default `True`.
+- `metadata_encoding`: just see the docs.  Default `None`.
+
+### Zip Settings for Different Folders
+
+For backing up folders, you should usually only ever need to touch a few of these.  In general, leaving `allowZip64=true` can't hurt.  For `compression`, generally a value of `93` (`ZIP_ZSTANDARD`) is a good default, with `compressionlevel=3` a sensible default.  `compression=8` is better when integration with older tools is needed.  In general, a higher `compressionlevel` will take longer to run, but could also result in a tighter compression (less space used).
+
+What you should use depends on the type of files in your backup.  If you have a lot of video/audio, which is already tightly compressed by default, simply use `compression=0`.  If you have a large folder containing many repositories and git histories, we can save space there, so using `compression=93` and `compressionlevel=3` makes sense.  The best advice is to learn what these variables do, make a judgement call with your jobs, and adjust based on how thing work until you find your ideal ratio of compression to speed.
 
 ## Conclusion
 `pybackups` is meant to help you make... backups of your data using... python.  Hence the name.  Once again, it is designed to make it easy to have copies of folders on a separate disk, just in case one disk fails.  Therefore, ideally, you would be copying from one mounted disk to another, like `target=/mnt/sda1/folder`, and `destination=/mnt/sdb1/backups`.  This is an open-source tool that I use for personal projects, so what you see is what you get.  There may be bugs, so if you are worried about it, audit the code, or use a more robust, battle-tested tool.  I also built this as an exercise to make sure I can still code in the age of ai :D.  Good luck and enjoy!
