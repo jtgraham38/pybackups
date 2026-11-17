@@ -16,6 +16,9 @@ IOSchedulingClass=idle
 IOWeight=10
 IOReadBandwidthMax=/dev/sda 20M
 MemoryHigh=512M
+CPUSchedulingPolicy=idle
+CPUQuota=25%
+CPUWeight=20
 
 [Install]
 WantedBy=multi-user.target
