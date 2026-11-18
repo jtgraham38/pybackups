@@ -11,14 +11,14 @@ StandardError=journal
 Environment=PYTHONUNBUFFERED=1
 Environment=STATE_DIRECTORY=/var/lib/pybackups
 Environment=CONFIGURATION_DIRECTORY=/etc/pybackups
+#lowest cpu scheduling priority
 Nice=19
-IOSchedulingClass=idle
-IOWeight=10
-IOReadBandwidthMax=/dev/sda 20M
-MemoryHigh=512M
-CPUSchedulingPolicy=idle
-CPUQuota=25%
-CPUWeight=20
+#only let this process run when other processes don't need the cpu
+CPUWeight=idle
+#only use io when other processes don't need them
+IOWeight=idle
+# aggressively reclaim memory above this point
+MemoryHigh=512Mb
 
 [Install]
 WantedBy=multi-user.target
