@@ -88,5 +88,8 @@ def py_backups():
 if __name__ == "__main__":
     while True:
         # run the main app script every 60 seconds
-        py_backups()
+        try:
+            py_backups()
+        except Exception as e:
+            print(f"An error occurred: {e}")
         time.sleep(60)
