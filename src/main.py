@@ -50,7 +50,12 @@ def py_backups():
                 continue
 
         # run a new zipjob to make the backup
-        destination_file_path = zip_job(target, destination, options=options)
+        try:
+            destination_file_path = zip_job(target, destination, options=options)
+        except Exception as e:
+            #delete the partial archive
+            del_job(destination_file_path)
+            raise e
 
         # add backup to state.jobs.backups
         backups_q = deque()
